@@ -97,7 +97,11 @@ let redAnimation =
     .repeating(count: Int.max)
     .bind(redSquare, with: \.transform.tx)
     // rotate back and forth
-//    + step1.map { $0/20 }.looped.repeating(count: 4).bind(redSquare, with: \.transform.rotation)
+    + step1
+      .map { $0/20 }
+      .looped
+      .repeating(count: 4)
+      .bind(redSquare, with: \.transform.rotation)
 
 let blueAnimation =
   (step1 * step2 * step3).bind(blueSquare, with: \.transform.tx)

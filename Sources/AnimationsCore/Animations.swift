@@ -1,5 +1,8 @@
 import CoreGraphics
 
+// todo: change mentions of time to progress
+public typealias Progress = CFAbsoluteTime
+
 public struct Animation<A> {
   public let duration: CFAbsoluteTime
   private let _value: (CFAbsoluteTime) -> A
