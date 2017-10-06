@@ -36,6 +36,12 @@ public struct Animation<A> {
     }
   }
 
+  public func transformTime(_ f: @escaping (CFAbsoluteTime) -> CFAbsoluteTime) -> Animation {
+    return .init(duration: self.duration) { t in
+      return self.value(f(t))
+    }
+  }
+
   /// Transforms the outut of the animation.
   public func map<B>(_ f: @escaping (A) -> B) -> Animation<B> {
     return .init(duration: self.duration) { t in f(self.value(t)) }

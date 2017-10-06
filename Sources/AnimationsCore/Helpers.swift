@@ -5,3 +5,4 @@ public func linear(from a: CGFloat, to b: CGFloat, in duration: CFAbsoluteTime) 
     a * (1 - CGFloat(t)) + b * CGFloat(t)
   }
 }
+

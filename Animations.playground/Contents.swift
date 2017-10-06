@@ -2,7 +2,7 @@ import Foundation
 import AnimationsCore
 import UIKit
 
-let step1 = linear(from: 0, to: 50, in: 1)
+let step1 = linear(from: 0, to: 200, in: 1)
 let step2 = linear(from: 50, to: 200, in: 3)
 let step3 = linear(from: 200, to: 300, in: 1)
 let sequenced = step1 * step2 * step3
@@ -82,9 +82,14 @@ let driver = Drive(maxSteps: 500)
 
 let redAnimation =
   // move back and forth
-  step1.looped.delayed(by: 1).repeating(count: Int.max).bind(redSquare, with: \.transform.tx)
+  step1
+    .transformTime(g)
+    .looped
+    .delayed(by: 1)
+    .repeating(count: 4)
+    .bind(redSquare, with: \.transform.tx)
     // rotate back and forth
-    + step1.map { $0/20 }.looped.repeating(count: Int.max).bind(redSquare, with: \.transform.rotation)
+//    + step1.map { $0/20 }.looped.repeating(count: 4).bind(redSquare, with: \.transform.rotation)
 
 let blueAnimation =
   (step1 * step2 * step3).bind(blueSquare, with: \.transform.tx)
@@ -94,6 +99,17 @@ let final = redAnimation + blueAnimation
 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
   driver.append(animation: final.map { _ in () })
 }
+
+// BUMP FUNCTIONS!
+func f(_ t: CFAbsoluteTime) -> CFAbsoluteTime {
+  return t <= 0 ? 0 : exp(-1.0 / t)
+}
+func g(_ t: CFAbsoluteTime) -> CFAbsoluteTime {
+  return f(t) / (f(t) + f(1-t))
+}
+
+
+
 
 print("✅")
 
