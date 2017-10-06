@@ -99,7 +99,7 @@ public struct Animation<A> {
 
 
   /// Experimental: Chris is a fan of this function, but I don't quite understand it yet. It kinda lets you
-  /// change a new animation onto an existing one by giving the next animation the final value of the
+  /// chain a new animation onto an existing one by giving the next animation the final value of the
   // previous.
   public func andThen(_ rhs: @escaping (A) -> Animation) -> Animation {
     return self * rhs(self.end)
