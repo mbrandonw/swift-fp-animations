@@ -1,8 +1,5 @@
 import CoreGraphics
 
-// todo: move to swift-prelude
-func createTuple<A, B>(_ a: A, _ b: B) -> (A, B) { return (a, b) }
-
 public struct Animation<A> {
   public let duration: CFAbsoluteTime
   private let _value: (CFAbsoluteTime) -> A

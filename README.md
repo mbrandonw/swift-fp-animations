@@ -1,3 +1,2 @@
 # swift-fp-animations
-
-A description of this package.
+playing around with an FP interface to animations
