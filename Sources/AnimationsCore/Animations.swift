@@ -70,11 +70,10 @@ public struct Animation<A> {
   /// last value until the longer one finishes.
   public static func + <B> (lhs: Animation, rhs: Animation<B>) -> Animation<(A, B)> {
     let newDuration = max(lhs.duration, rhs.duration)
-    let ratio = newDuration / lhs.duration
 
     return .init(duration: newDuration) { t in
-      let a = lhs.value(min(1, t * ratio))
-      let b = rhs.value(min(1, t * ratio))
+      let a = lhs.value(min(1, t * newDuration / lhs.duration))
+      let b = rhs.value(min(1, t * newDuration / rhs.duration))
       return (a, b)
     }
   }
