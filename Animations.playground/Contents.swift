@@ -80,31 +80,28 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 let driver = Drive(maxSteps: 500)
 
-// BUMP FUNCTIONS!
-func f(_ t: CFAbsoluteTime) -> CFAbsoluteTime {
-  return t <= 0 ? 0 : exp(-1.0 / t)
-}
-func g(_ t: CFAbsoluteTime) -> CFAbsoluteTime {
-  return f(t) / (f(t) + f(1-t))
-}
-
 let redAnimation =
   // move back and forth
   step1
-    .transformTime(g)
+    .transformTime(easeOut(2))
     .looped
     .delayed(by: 1)
     .repeating(count: Int.max)
     .bind(redSquare, with: \.transform.tx)
     // rotate back and forth
-    + step1
-      .map { $0/20 }
-      .looped
-      .repeating(count: 4)
-      .bind(redSquare, with: \.transform.rotation)
+//    + step1
+//      .map { $0/20 }
+//      .looped
+//      .repeating(count: 4)
+//      .bind(redSquare, with: \.transform.rotation)
 
 let blueAnimation =
-  (step1 * step2 * step3).bind(blueSquare, with: \.transform.tx)
+  step1
+    .transformTime(easeIn(2))
+    .looped
+    .delayed(by: 1)
+    .repeating(count: Int.max)
+    .bind(blueSquare, with: \.transform.tx)
 
 let final = redAnimation + blueAnimation
 
