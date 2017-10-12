@@ -39,15 +39,12 @@ paralleled.value(0.6)
 paralleled.value(0.8)
 paralleled.value(1)
 
-// proof of associativity:
+// verification of associativity:
 let assoc1 = step1 * (step2 * step3)
 let assoc2 = (step1 * step2) * step3
-assoc1.value(0.5)
-assoc2.value(0.5)
-assoc1.value(0.25)
-assoc2.value(0.25)
-assoc1.value(0.75)
-assoc2.value(0.75)
+"\(assoc1.value(0.5)) == \(assoc2.value(0.5))"
+"\(assoc1.value(0.25)) == \(assoc2.value(0.25))"
+"\(assoc1.value(0.75)) == \(assoc2.value(0.75))"
 
 // proof of non-distributivity:
 
@@ -55,10 +52,16 @@ assoc2.value(0.75)
 //(step1 * (step2 + step3)).value(0.5)
 //(step1 * step2 + step1 * step3)).value(0.5)
 
-// and then if we flip the roles of `+` and `*` we have:
-(step1 + (step2 * step3)).value(0.5)
-((step1 + step2) * (step1 + step3)).value(0.5)
-// ^ values not equal
+// If we flip the roles of `*` and `+` we get distribution, but we still
+// don't have a semiring cause `+` has the wrong signature.
+let distLhs = step1 + (step2 * step3)
+let distRhs = (step1 + step2) * (step1 + step3)
+"\(distLhs.value(0.1)) == \(distRhs.value(0.1))"
+"\(distLhs.value(0.2)) == \(distRhs.value(0.2))"
+"\(distLhs.value(0.3)) == \(distRhs.value(0.3))"
+"\(distLhs.value(0.4)) == \(distRhs.value(0.4))"
+"\(distLhs.value(0.5)) == \(distRhs.value(0.5))"
+"\(distLhs.value(0.6)) == \(distRhs.value(0.6))"
 
 
 
@@ -81,13 +84,12 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 let driver = Drive(maxSteps: 500)
 
 let redAnimation =
-  // move back and forth
-  step1
+  linear(from: 300, to: 0, in: 1)
     .transformTime(easeOut(2))
     .looped
     .delayed(by: 1)
     .repeating(count: Int.max)
-    .bind(redSquare, with: \.transform.tx)
+    .bind(redSquare, with: \.transform.ty)
     // rotate back and forth
 //    + step1
 //      .map { $0/20 }
@@ -97,7 +99,7 @@ let redAnimation =
 
 let blueAnimation =
   step1
-    .transformTime(easeIn(2))
+    .transformTime(easeOut)
     .looped
     .delayed(by: 1)
     .repeating(count: Int.max)
@@ -113,6 +115,7 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 
 
 print("✅")
+
 
 
 

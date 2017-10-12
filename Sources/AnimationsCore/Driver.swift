@@ -1,4 +1,5 @@
 import QuartzCore
+import UIKit
 
 public final class Drive: NSObject {
   /// `maxSteps` is for use in a playground only. It kills the display link after that many steps so that
@@ -10,7 +11,8 @@ public final class Drive: NSObject {
   public init(maxSteps: Int = Int.max) {
     self.maxSteps = maxSteps
     super.init()
-    self.displayLink = CADisplayLink(target: self, selector: #selector(step(_:)))
+    self.displayLink = UIScreen.main.displayLink(withTarget: self, selector: #selector(step(_:)))
+    //CADisplayLink(target: self, selector: #selector(step(_:)))
     self.displayLink.add(to: RunLoop.main, forMode: .commonModes)
   }
 

@@ -23,7 +23,7 @@ public func easeInOut(_ c: Double = 1) -> (CFAbsoluteTime) -> CFAbsoluteTime {
 // private
 
 private func _easeIn(_ c: Double) -> (CFAbsoluteTime) -> CFAbsoluteTime {
-  return { pow($0, c) }
+  return { 1 - pow(1 - $0, 1/c) }
 }
 
 private func _easeInOut(_ c: Double = 1) -> (CFAbsoluteTime) -> CFAbsoluteTime {
