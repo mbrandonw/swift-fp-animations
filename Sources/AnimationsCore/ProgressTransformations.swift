@@ -1,24 +1,29 @@
 import CoreGraphics
 
+// Nice defaults for easing in, out and in+out.
 public let easeIn = _easeIn(2)
 public let easeOut = _easeIn(0.5)
+public let easeInOut = _easeInOut(1)
 
+// Ease in with a parameter. The larger the value of `c` the more intense the ease in.
 public func easeIn(_ c: Double) -> (CFAbsoluteTime) -> CFAbsoluteTime {
   return _easeIn(c)
 }
 
+// Ease out with a parameter. The larger the value of `c` the more intense the ease out.
 public func easeOut(_ c: Double) -> (CFAbsoluteTime) -> CFAbsoluteTime {
   return _easeIn(1 / c)
 }
 
-public func _easeIn(_ c: Double) -> (CFAbsoluteTime) -> CFAbsoluteTime {
-  return { pow($0, c) }
-}
-
-public let easeInOut = _easeInOut(1)
-
+// Ease in+out with a parameter. The larger the value of `c` the more intense the ease in+out.
 public func easeInOut(_ c: Double = 1) -> (CFAbsoluteTime) -> CFAbsoluteTime {
   return _easeInOut(c)
+}
+
+// private
+
+private func _easeIn(_ c: Double) -> (CFAbsoluteTime) -> CFAbsoluteTime {
+  return { pow($0, c) }
 }
 
 private func _easeInOut(_ c: Double = 1) -> (CFAbsoluteTime) -> CFAbsoluteTime {
@@ -28,3 +33,4 @@ private func _easeInOut(_ c: Double = 1) -> (CFAbsoluteTime) -> CFAbsoluteTime {
 private func expInv(_ c: Double, _ t: CFAbsoluteTime) -> CFAbsoluteTime {
   return t <= 0 ? 0 : exp(-c / t)
 }
+
